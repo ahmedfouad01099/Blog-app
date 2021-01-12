@@ -16,8 +16,8 @@ class SinglePost extends Component {
     const postId = this.props.match.params.postId;
     const graphqlQuery = {
       query: `
-        {
-          post(id: "${postId}") {
+        query FetchSinglePost($postId: ID!) {
+          post(id: $postId) {
             title
             content
             imageUrl
@@ -28,6 +28,9 @@ class SinglePost extends Component {
           }
         }
       `,
+      variables: {
+        postId
+      }
     };
     fetch("http://localhost:8080/graphql", {
       method: "POST",
@@ -41,7 +44,7 @@ class SinglePost extends Component {
         return res.json();
       })
       .then((resData) => {
-        console.log("res", resData);
+        // console.log("res", resData);
         if (resData.error) {
           throw new Error("fetching post faild!!");
         }
@@ -56,7 +59,7 @@ class SinglePost extends Component {
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
